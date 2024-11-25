@@ -1,0 +1,10 @@
+beige,38,500,7,https://www.cos.com/en_eur/women/womenswear/coats-and-jackets/product.oversized-scarf-detail-trench-coat-black.1215475002.html
+dark khaki,42,1450,7,https://www.cos.com/en_eur/women/womenswear/coats-and-jackets/product.double-breasted-wool-blend-trench-coat-green.1221627001.html
+khaki,36,999.99,40,https://www.massimodutti.com/ro/trenci-scurt-petrecut-2-layers-l06750810
+camel,34,1799.99,3,https://www.massimodutti.com/ro/trenci-scurt-din-piele-nappa-l04710730
+navy blue,40,1499,7,https://www.massimodutti.com/ro/palton-trenci-din-amestec-de-lana-bleumarin-l06439582
+black,44,649,25,https://www.massimodutti.com/ro/trenci-scurt-negru-din-amestec-de-bumbac-l06765821
+black,38,175,2,https://www.cos.com/en_eur/women/womenswear/coats-and-jackets/product.oversized-scarf-detail-trench-coat-beige.1215475001.html
+light beige,48,575.99,17,https://www.cos.com/en_eur/women/womenswear/coats-and-jackets/product.cropped-trench-coat-cape-beige.1184404001.html
+khaki,38,500,5,https://www.cos.com/en_eur/women/womenswear/coats-and-jackets/product.short-twill-trench-coat-beige.1208899001.html
+black,36,2,35,https://www.massimodutti.com/ro/trenci-scurt-din-piele-nappa-l04710730
