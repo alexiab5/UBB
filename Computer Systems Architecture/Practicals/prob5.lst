@@ -1,0 +1,97 @@
+     1                                  bits 32
+     2                                  
+     3                                  global start
+     4                                  
+     5                                  extern exit, printf, scanf, fprintf, fscanf, fread, fopen, fclose
+     6                                  import exit msvcrt.dll
+     7                                  import printf msvcrt.dll
+     8                                  import scanf msvcrt.dll
+     9                                  import fprintf msvcrt.dll
+    10                                  import fscanf msvcrt.dll
+    11                                  import fread msvcrt.dll
+    12                                  import fopen msvcrt.dll
+    13                                  import fclose msvcrt.dll
+    14                                  
+    15                                  ; Se citeste de la tastatura un sir de caractere (litere mici si litere mari, cifre, caractere speciale, etc). Sa se formeze un sir nou doar cu literele mici si un sir nou doar cu literele mari. Sa se afiseze cele 2
+    16                                  
+    17                                  segment data use32 class=data
+    18                                  
+    19 00000000 00<rept>                    chars_string times 50 db 0 
+    20 00000032 456E74657220612073-         message1 db "Enter a string of characters: ", 0
+    20 0000003B 7472696E67206F6620-
+    20 00000044 636861726163746572-
+    20 0000004D 733A2000           
+    21 00000051 546865206C6F776572-         message2 db "The lowercase letters in the string: %s%c", 0
+    21 0000005A 63617365206C657474-
+    21 00000063 65727320696E207468-
+    21 0000006C 6520737472696E673A-
+    21 00000075 202573256300       
+    22 0000007B 546865207570706572-         message3 db "The uppercase letters in the string: %s%c", 0
+    22 00000084 63617365206C657474-
+    22 0000008D 65727320696E207468-
+    22 00000096 6520737472696E673A-
+    22 0000009F 202573256300       
+    23 000000A5 0A00                        newline db 0Ah, 0
+    24 000000A7 00000000                    uppercase_letters_count dd 0
+    25 000000AB 00000000                    lowercase_letters_count dd 0
+    26                                      uppercase times 50 dd 0
+    27 000000AF 00000000<rept>              lowercase times 50 dd 0
+    28 00000177 257300                      reading_format db "%s", 0
+    29 0000017A 257300                      printing_format db "%s", 0
+    30 0000017D FFFFFFFF                    file_descriptor dd -1
+    31                                  
+    32                                  segment code use32 class=code
+    33                                      
+    34                                      start:
+    35                                          
+    36 00000000 68[32000000]                    push message1
+    37 00000005 FF15[00000000]                  call [printf]
+    38 0000000B 83C404                          add esp, 4
+    39                                          
+    40 0000000E 68[00000000]                    push chars_string
+    41 00000013 68[77010000]                    push reading_format
+    42 00000018 FF15[00000000]                  call [scanf]
+    43 0000001E 83C408                          add esp, 4*2
+    44                                          
+    45 00000021 BE[00000000]                    mov esi, chars_string
+    46                                          repeat:
+    47 00000026 AC                                  lodsb
+    48                                              
+    49 00000027 3C41                                cmp al, "A"
+    50 00000029 7232                                    jb not_letter
+    51 0000002B 3C5A                                        cmp al, "Z"
+    52 0000002D 7714                                        ja upper
+    53                                                      ; uppercase letter ("A" <= AL <= "Z")
+    54 0000002F 8B1D[A7000000]                              mov ebx, [uppercase_letters_count]
+    55                                                      mov [uppercase + ebx], al
+    55          ******************       error: symbol `uppercase' undefined
+    56 00000035 FF05[A7000000]                              inc dword [uppercase_letters_count]
+    57 0000003B EB20                                        jmp not_letter
+    58                                                      upper:
+    59 0000003D 3C61                                            cmp al, "a"
+    60 0000003F 721C                                            jb not_letter
+    61 00000041 3C7A                                            cmp al, "z"
+    62 00000043 7718                                            ja not_letter
+    63                                                          ; lowercase letter ("a" <= AL <= "z")
+    64 00000045 8B1D[AB000000]                                  mov ebx, [lowercase_letters_count]
+    65 0000004B 8883[AF000000]                                  mov [ebx + lowercase], al
+    66 00000051 FF05[AB000000]                                  inc dword [lowercase_letters_count]  
+    67                                                  not_letter:
+    68                                                  
+    69 00000057 3C00                                cmp al, 0
+    70 00000059 75CB                                jne repeat
+    71                                          
+    72 0000005B 68[A5000000]                    push newline
+    73 00000060 68[AF000000]                    push lowercase
+    74 00000065 68[51000000]                    push message2
+    75 0000006A FF15[00000000]                  call [printf]
+    76 00000070 83C40C                          add esp, 4*3
+    77                                          
+    78 00000073 68[A5000000]                    push newline
+    79                                          push uppercase
+    80 00000078 68[7B000000]                    push message3
+    81 0000007D FF15[00000000]                  call [printf]
+    82 00000083 83C40C                          add esp, 4*3
+    83                                          
+    84 00000086 6A00                            push dword 0
+    85 00000088 FF15[00000000]                  call [exit]

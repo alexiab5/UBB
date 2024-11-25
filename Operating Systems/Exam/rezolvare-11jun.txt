@@ -1,0 +1,64 @@
+1.
+^(([a-zA-Z][a-zA-Z])*[a-zA-Z][ ]+([a-zA-Z][a-zA-Z])+[ ]*)+$
+([a-zA-Z][a-zA-Z])*[a-zA-Z] - cuvant de lungime impara
+2.
+grep -E "(^([0-9][a-zA-Z])+[0-9]?$)|(^([a-zA-Z][0-9])+[a-zA-Z]?$)" file.txt
+grep -E -i "(^([0-9][a-z])+[0-9]?$)|(^([a-z][0-9])+[a-z]?$)" file.txt
+grep -E -i "(^[a-z]?([0-9][a-z])+$)|(^[0-9]?([a-z][0-9])+$)" file.txt
+4.
+sed -E "s/([a-z]+)//" file.txt
+sed -E "s/([a-z]+[^a-z]*)//" file.txt
+SAU !!! sed -E "s/([a-z][a-z]*)//"
+5.
+awk 'BEGIN {sum = 0} {for (i = 1; i <= NF; i++) sum += $i} END {print sum}'
+6.
+dimensiunea unui fisier:
+du -b file
+stat file
+ls -s file or ls -l file also shows the file size
+7.
+P -> C1 -> C2 -> C3
+8.
+The output of the program is: 3
+Explanation:
+execl expects as first argument the full path of the command to be executed. Because in this case it is not provided, the function will return with exit code -1
+and the main program will resume its execution, so execlp will be executed next. Since execlp does not create a new process, but actually reuses the current one, anything
+after the command will be replaced by its actual code. Therefore, the only output will be that of the command "echo 3", resulting in only 3 being printed on the screen.
+9.
+Popen allows running bash commands all while providing a way to access the I/O of those commands. 
+Therefore, in addition to returning a file pointer for accessing those arguments, it actually creates
+a new process for running that command, which has to be waited for. Therefore, pclose doesn't only
+close the file opened by popen, but it also wait for the process that was created, which is why fclose
+cannot be used in this case.
+10.
+When calling the open on a fifo, the function waits for the fifo to be opened for the 
+complementary operation before returning, which is why no fifos can be opened in a process for reading,
+if no other process opens the fifo for writing.
+* nu asta era intrebarea:)
+A process can open for reading as many FIFOs as it wants, as long as there exists another process to
+open them for writing, in exactly the same order, otherwise it might lead to deadlock.
+11.
+I would use execv whenever the arguments of the command to be executed by exec need to be stored in an 
+array. For example, the arguments are read from the console, in which case, they first need to be stored
+in an array of strings, which will then be passed to execv.
+12.
+A critical section is a part of the program that is accessed simultaneously by multiple processes/threads
+which attempt to modify some local variables (through operations that are not atomic) called critical resources. A critical section should not be accesed by more than one process/thread at a time.
+13.
+MUTUAL EXCLUSION
+pthread_mutex_lock(&m)
+binary semaphores: sem_wait(&sem)
+pthread_rwlock_wrlock(&rwlock)
+
+14.
+The answer is: deadlock. Suppose we have two threads A and B. If thread A receives an even number, it
+will first lock m[0], then it will attempt to lock m[1]. Concurrently, B received an odd number, so it
+first locks m[1], then it will attempt to lock m[0]. Process A will have to wait until B unlocks m[1], but this can only happen after A unlocks m[0], which only happens after locking m[1]. Therefore, we have
+a cycle. Both threads wait on each other, so the program gets stuck.
+
+
+15.
+T=4
+N1=2
+N2=1
+(divizori!!)

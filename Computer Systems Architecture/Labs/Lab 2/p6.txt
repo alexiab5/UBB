@@ -1,0 +1,34 @@
+bits 32 
+global start        
+
+extern exit               ; exits program
+import exit msvcrt.dll    
+                          
+segment data use32 class=data
+    a db 10
+    b db 20
+    c db 30
+    d dw 40
+
+segment code use32 class=code
+    start:
+        ; compute d*(d+2*a)/(b*c)
+        mov AL, [b]  ; AL = b
+        mul BYTE [c] ; AX = AL * c = b*c
+        mov CX, AX
+        mov AL, 2 ; AL = 2
+        mul BYTE [a] ; AX = AL * a = 2*a
+        add AX, [d]  ; AX = AX + d = 2*a+d
+        mul WORD [d] ; AX = AX * d = d*(2*a+d)
+        div CX
+        ;push DX
+        ;push AX
+        ;pop EBX ; EBX = d*(2*a+d)
+        
+        
+      
+        ; ...
+    
+        ; exit(0)
+        push    dword 0      ; push the parameter for exit onto the stack
+        call    [exit]       ; call exit to terminate the program

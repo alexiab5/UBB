@@ -1,0 +1,12 @@
+grep -E -v -i "[a-z0-9]" file2.txt
+grep -E "^[^a-zA-Z0-9]*$" file4.txt
+grep -E "^([^i]*i[^i]*){2,4}$" file4.txt
+grep -E -i "\^([^aeiou]*[aeiou][^aeiou]*){,5}\^" file4.txt
+sed -E "s/([0-9]+)/\1\1/g" file4.txt
+sed -E "s/^([^:]*):([^:]*):([^:]*):/\1:\3:\2:/" passwd.fake
+sed -E "s/(\<[a-z]+\>)//" file4.txt
+awk 'NF % 2 == 1 {nr = int(NF/2); print NR " " $nr}' file4.txt
+awk 'NR > 1 {split($7,s,":"); time = 60 * 60 * int(s[1]) + 60 * int(s[2]) + int(s[3]); if(time > 600) {print $0}}' ps.fake !!!!!!!!!!
+ls -l | awk 'NR > 1 && $1 ~ /^-/ {print $1 " " $NF}' | sed -E "s/^.(...)(...)(...)/\1/"
+awk -F: '/^[aeiouAEIOU]/ {print $6}' /etc/passwd - Print the home directory of users having their usernames start with a vowel!!!
+awk -F: 'length($1) > 10 {print $5}' /etc/passwd !!

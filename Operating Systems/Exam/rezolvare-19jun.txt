@@ -1,0 +1,29 @@
+1.
+^[0-9]*[05]$
+^[0-9]*(0|5)$
+^([0-9]*0)|([0-9]*5)$
+
+2.
+grep -E -i "a"
+grep -E "a|A"
+grep -E "(a+)|(A+)"
+grep -E "[aA]"
+grep -E -i "[a]"
+grep -E -i "[^a]*a[^a]*"
+
+
+3.
+sed -E "s/7//d" file.txt
+sed -E "s/^([^7]*7[^7]*)+$//" file.txt
+
+4.
+awk 'BEGIN {sum = 0} {sum += $(NF-1)} END {print sum}' file.txt
+
+5.
+
+
+6.
+while [ $# -ne 0]; do
+	echo $1
+	shift	
+done

@@ -1,0 +1,5 @@
+E:/ubb/oop-practice/testqt2/cmake-build-debug/CMakeFiles/testqt2.dir
+E:/ubb/oop-practice/testqt2/cmake-build-debug/CMakeFiles/edit_cache.dir
+E:/ubb/oop-practice/testqt2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+E:/ubb/oop-practice/testqt2/cmake-build-debug/CMakeFiles/testqt2_autogen_timestamp_deps.dir
+E:/ubb/oop-practice/testqt2/cmake-build-debug/CMakeFiles/testqt2_autogen.dir

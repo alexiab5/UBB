@@ -1,0 +1,19 @@
+grep "^.*$" passwd.fake | wc -l
+grep -E "^(.*:){4}\<.{11}\>" ./passwd.fake
+grep -E "^[^ey]" passwd.fake
+================= LECTURE NOTES EXAMPLES ===================
+grep -E "^\<[^0-9]+\>" /etc/passwd OR grep -E "^[^0-9]+:" /etc/passwd
+grep -E -i "^[^:aeiou]*[aeiou][^:aeiou]*[aeiou][^:aeiou]*:" /etc/passwd - exactly two vowels
+grep -E -i "^[^:]*[aeiou][^:]*[aeiou][^:]*:" /etc/passwd OR grep -E -i "^[^:]*([aeiou][^:]*){2,}:" /etc/passwd  !!!!!!!!!!! - at least two vowels
+grep -E -v "/bash$" passwd.fake
+grep -E -i "^([^:]*:){4}[^:]*\<horia\>" passwd.fake
+grep -E "^(..)*.$" a.txt - lines containing odd number of characters
+sed -E "s/dan/daniel/g" passwd.fake
+sed -E "s/^(.*dan.*)$//" passwd.fake
+sed -E "y/qwertyuiopasdfghjklzxcvbnm/QWERTYUIOPASDFGHJKLZXCVBNM/" passwd.fake	
+sed -E "s/([aeiou][aeiou][aeiou])/(\1)/g" passwd.fake OR sed -E "s/([aeiou]{3,})/(\1)/gi" /etc/passwd !! 
+awk -F: '{print NR " " $0}' passwd.fake
+awk -F: ' NR % 2 == 1 {print $0}' passwd.fake
+awk -F: '{print $5}' passwd.fake
+awk -F: '{print $5 " - " $1 " - " $6}' passwd.fake | awk -F/ '{print $1 $4}'
+awk 'BEGIN {nr1=0; nr2=0} $0 ~ /[aeiouAEIOU]$/ {nr1 += 1} $0 ~ /[bcdfghjklmnpqrtswz]$/ {nr2 += 1} END {print nr1 " " nr2}' file4.txt

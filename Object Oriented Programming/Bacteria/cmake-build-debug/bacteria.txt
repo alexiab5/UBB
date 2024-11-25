@@ -1,0 +1,4 @@
+Stafilococ|coci|100|boala1 bboala2 boala3
+Streptococ|coci|50|boala1 boala2
+HPV|virusuri|75|cancer1 cancer2
+Coronavirus|corona|40|corona

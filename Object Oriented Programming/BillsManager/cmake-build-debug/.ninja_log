@@ -1,0 +1,14 @@
+# ninja log v5
+35	347	7383447471195399	testqt1_autogen/timestamp	ddabcaefb5bfe0ff
+35	347	7383447471195399	E:/ubb/oop-practice/testqt1/cmake-build-debug/testqt1_autogen/timestamp	ddabcaefb5bfe0ff
+35	347	7383447471195399	testqt1_autogen/mocs_compilation.cpp	ddabcaefb5bfe0ff
+184	303	7383300507987123	CMakeFiles/testqt1.dir/testqt1_autogen/mocs_compilation.cpp.obj	a888b414454c3a74
+383	6331	7383447531002567	CMakeFiles/testqt1.dir/billsgui.cpp.obj	59c9bec0545a06fb
+35	347	7383447471195399	E:/ubb/oop-practice/testqt1/cmake-build-debug/testqt1_autogen/mocs_compilation.cpp	ddabcaefb5bfe0ff
+349	6304	7383447530730142	CMakeFiles/testqt1.dir/main.cpp.obj	e98d4b5d4206b431
+6331	8691	7383447554577818	testqt1.exe	7a0bdbce23e10898
+341	3423	7383241736805799	CMakeFiles/testqt1.dir/domain.cpp.obj	fcd22aff21ea7ed0
+295	2571	7383352312692826	CMakeFiles/testqt1.dir/repository.cpp.obj	b95032fc9c46bcca
+156	1987	7383370166661315	CMakeFiles/testqt1.dir/service.cpp.obj	57a5c1c61ab5c783
+389	6290	7383447530555436	CMakeFiles/testqt1.dir/billsListModel.cpp.obj	d024d5df896d743f
+413	6299	7383447530499470	CMakeFiles/testqt1.dir/billsListFilterProxyModel.cpp.obj	e37f673817f0aade

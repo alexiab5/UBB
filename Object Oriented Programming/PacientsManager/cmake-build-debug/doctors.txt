@@ -1,0 +1,6 @@
+Iarina|Cardiologie
+Daria|Urologie
+Alexia|ORL
+Irina|Pediatrie
+Maria|Pediatrie
+Marius|Pediatrie

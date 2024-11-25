@@ -1,0 +1,8 @@
+Ana|2024.06.24|ill|Pediatrie|Maria|
+Alexandra|2024.05.19|undiagnosed|Pediatrie|Irina|
+Maia|2024.06.23|ill|ORL|Maria|
+Marius|2024.06.23|undiagnosed|Urologie|Daria|
+Cristi|2024.06.23|undiagnosed|ORL|Alexia|
+Bala|2024.06.21|undiagnosed|ORL|Alexia|
+Anastasia|2024.06.20|undiagnosed|Cardiologie|Iarina|
+Amalia|2024.06.20|undiagnosed|Cardiologie||

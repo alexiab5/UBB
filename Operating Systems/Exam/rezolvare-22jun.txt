@@ -1,0 +1,21 @@
+1.
+regex; nr impar cuvinte separate prin spatiu, nr impar de litere:
+
+^((([a-zA-z][a-zA-Z])*[a-zA-Z][ ]+){2})*([a-zA-z][a-zA-Z])*[a-zA-Z][ ]*$
+
+2.
+
+grep -E "^$" file.txt | wc -l
+
+grep -E "^$" file.txt | uniq -c
+
+awk '$0 ~ /^$/ {print $0}' file.txt | wc -l
+
+awk 'BEGIN {nr = 0} $0 ~ /^$/ {nr = $nr + 1} END {print $nr}' file.txt !!! - gresit
+awk 'BEGIN {nr = 0} $0 ~ /^$/ {nr += 1} END {print nr}' file.txt
+
+3.
+sed -E "s/([^ ])([ ])([^ ])([ ])/\1\3\4/g" file.txt !!! mai corect:
+sed -E "s/([^ ]*)([ ])([^ ]*)(([ ])|$)/\1\3\4/g" file.txt
+
+4. produsul ultimului camp???

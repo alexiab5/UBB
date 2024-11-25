@@ -1,0 +1,53 @@
+-*-*-*-*- READING/ WRITING IN C -*-*-*-*-
+! 0 = standard input
+  1 = standard output
+  2 = standard error!!!
+stdin, stdout = pointers!!
+
+* open(const char *file_name/file_path, int flags, mode_t mode)
+flags:
+O_CREAT - if file_path doesn't exist, it creats it as a regular file
+O_WRONLY
+O_RDONLY
+O_APPEND 
+mode = number of bits to be  mode bits to be applied when a new file is created.
+If neither O_CREAT nor O_TMPFILE is specified in flags,  then  mode  is  ignored.
+=> The mode argument must be supplied if O_CREAT or O_TMPFILE is specified in flags; if it is not supplied, some  arbitrary bytes from the stack will be applied as the file mode.
+! Note that mode applies only to future accesses of the newly created  file;  the  open() call that creates a read-only file may well return a read/write file descriptor.
+RETURN VALUE: fd or -1 if an error ocurred
+
+* fopen(const char *file_name, const char *mode)
+mode = "r", "W", "w+" etc.
+=> FILE POINTER or NULL if an error occured
+! file pointer = "structure" that stores the file data such as the file name, its location, mode, and the current position in the file.
+When we read data from a file using functions like fgetc(), fgets(), etc., the file pointer moves forward automatically to the next position after the read operation.
+!! fseek(FILE *filePointer, long offset, int origin) - used to set or change the file pointer to a specific position within a file.
+
+* scanf(const char *format, ...)
+
+* fscanf(FILE *stream, const char *format, ...)
+RETURN VALUE: the number of input items successfully converted and assigned
+The  value  EOF  is returned if the end of input is reached before either the first successful conversion or a matching failure occurs.
+
+* char *fgets(char *s, int size, FILE *stream)
+- reads in the buffer pointed by s at most one less than size characters from stream and stores them into the buffer pointed to by s.  Reading stops after an EOF or a newline.  If a newline is read, it is stored 
+into the buffer.  A terminating null byte ('\0') is stored after the last character in the buffer.
+
+* int fgetc(FILE *stream)  reads  the  next  character from stream and returns it as an unsigned char cast to anint, or EOF on end of file or error.
+* int getc(FILE *stream) is equivalent to fgetc() except that it may be implemented as a macro  which  evaluates stream more than once.
+* int getchar(void) is equivalent to getc(stdin).
+
+* int printf(const char *format, ...);
+* int fprintf(FILE *stream, const char *format, ...);
+Upon successful return, these functions return the number of characters printed (excluding the null byte used to end output to strings).
+
+* write(int fd, const void *buf, size_t count)
+- writes  up  to count bytes from the buffer starting at buf to the file referred to by the file descriptor fd.
+On  success,  the number of bytes written is returned.  On error, -1 is returned, and errno is set to indicate the cause of the error.
+EX:
+int rows = 2, cols = 3;
+write(fd, &rows, sizeof(int));
+write(fd, &cols, sizeof(int));
+
+* read(int fd, void *buf, size_t count)
+On  success,  the  number of bytes read is returned (zero indicates end of file), and the file position is advanced by this number. On error, -1 is returned.

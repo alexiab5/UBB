@@ -1,0 +1,78 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "testqt3",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "testqt3::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-testqt3-Debug-44eebc76951be59a98d1.json",
+					"name" : "testqt3",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "testqt3_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-testqt3_autogen-Debug-01b46433ebbf1bf1bc10.json",
+					"name" : "testqt3_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "testqt3_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-testqt3_autogen_timestamp_deps-Debug-bfd58a22399cb41fbad8.json",
+					"name" : "testqt3_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "E:/ubb/oop-practice/testqt3/cmake-build-debug",
+		"source" : "E:/ubb/oop-practice/testqt3"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}

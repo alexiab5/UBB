@@ -1,0 +1,274 @@
+SHELL PROGRAMMING
+$0 - The name of the command
+$1 - $9 - Command line arguments
+$* or $@ - All the arguments together
+$# - Number of command line arguments
+$? - Exit code of the previous command
+
+
+REDIRECTING : DUBBING? dup dup2
+0 = stdin
+1 = stdout
+2 = stderr
+
+ls . bjvksrvn > b.txt 2> b.err - the result of ls goes in b.tx, the error goes in b.err
+ls . bjvksrvn > b.txt 2>&1 - both the result and the errors go in b.txt
+
+TEST COMMAND
+
+strings: ==, !=, -n: length is nonzero, -z: length is zero
+integers: -lt, -eq, -ne, -le, -ge, -gt
+file system: -f: file exists and is regular, -d: is directory, -r, -w, -x: exists and has the permission
+
+N=`wc -l a.txt` --> N is a string containing the stdout of the command!!!
+N=$? - n = exit code of the last command
+
+cut -d: -f5 ----> same as awk '{print $5}'
+
+head -n 20
+tail -n 122
+
+==================== PROCESSES =====================
+RACE CONDITION- multiple processes work on the same resources, modifying them
+ex - race condition - multiple processes that read a number from a file, increment it, then write it back to the file.
+as the concurrancy of the program is extended, the chance of data becoming corrupted / of things going wrong increases.
+
+printf("A\n");
+for(i = 0; i < 3; i++)
+	fork();
+printf("B\n");
+
+P  -> C0 -> C01 -> C03 -> C04
+0      	 -> C02
+1  -> C1 -> C11
+2  -> C2
+=> B is printed 8 times
+
+EXECUTING IN THE BACKGROUND
+./exe &
+fg - brings to the foreground the last program sent to the background
+CTRL+Z - suspends it
+bg - runs the last program suspended?
+kill -9 pid -> kills the program with the pid
+!!! ps -fax
+
+ZOMBIE PROCESSES
+- processes that have finished their execution but have not been "waited for" by the parent
+the os still keeps them in the list of processes (so that the parent can still get their exit code through wait)
+zombie processes accumulate and fill up pids, so that at some point you might not be able to create any more processes 
+because there are no more available ids for them. => wait for every process. : wait clears the pids!!
+
+!!! processes have their own memory segments, changing a variable in the child does not change its value in the parent etc.
+
+SIGNALS - man 7 signal
+signals = mechanisms that interrupt a process' execution and determine it to run a handler associated with the signal numnber
+closing a terminal from which a program is running => the program is sent a SIGHUP (hang up) signal!!!
+SIGINT = CTRL+C
+signal(SIGINT, f) - registers a new handler for the signal (handler = the function f)
+in order to send a signal : kill !!!!!!!
+
+EXEC
+!! exec acts like a parasaite, it doesn't create a new process, but reuses the current one 
+(it replaces the code after the command with the code of the actual command!!)
+execlp - list of arguments (first arg is the name command, list ends with null!!) p = the embedded? path
+execvp - vector of arguments
+
+PIPES
+= buffers in the kernel's memory!!!!
+functions like a file, but it comes already opened => a[0] = fd for reading, a[1] = fd for writing!!
+different behaviours for reading/writing
+reading = extracting data => removing it from the pipe
+reading from empty pipe => it waits until SOME data arrives in the pipe OR until there is nobody there is no writer
+writing = adding data
+if the pipe is full => write waits for SOME space to appear OR until there is no reader connected to the pipe
+=> CLOSE EACH PIPE END AS SOON AS YOU DON'T NEED IT ANYMORE
+the pipe is the same, the child only inherits the access descriptors 
+=> THE PIPE IS ALWAYS INHERITED => THE PARENT PROCESS OF BOTH PROCESSES COMMUNICATING THROUGH THE PIPE HAS TO CREATE THE PIPE
+(the processes are RELATED)
+
+BIDIRECTIONAL COMUNICATION
+through the same pipe does not work (without some synchronisation mechanism) because of the way in which reading 
+and writing in from/in pipes works (read waits until there is SOME information in the pipe: for ex, the parent could 
+send a question through the pipe to its child, and while attempting to read the result the child sent, it could read 
+again the question!!, which might not have been removed from the pipe if the child has not read it yet, before the parent attempted the reading)
+
+!! if you kill the parent, the children are orphan for a small amount of time bc the os realises they are orphans and automatically calls wait on them
+
+FIFOS
+= actual files on disk => you can refer to them from any process on the same machine
+! file but it behaves like a pipe (reading = removing from fifo, writing = adding...)
+files => they have to be explicitly opened
+OPEN waits until the fifo is opened for the other operation
+!!!!!! not opening the fifos for the reverse operation in the EXACT ORDER in which they were opened first => DEADLOCK : they wait on each other and are stuck
+mkfifo myfifo => creating fifo from cmd
+removing fifo from code --> unlink()
+=>fifos can be used by separate, unrelated programs
+
+!!!!!!!! always lock resources in the same order
+difference between pipes and fifos: data is persistent in fifos => you may read junk left behind if the communication was not ok
+
+!!! stat file -> shows you info about the file
+
+POPEN, PCLOSE
+- runs a bash command / a program? from c (like exec) but gives you access to the stdout of the command / stdin for providing its agruments through a file pointer that acts like a buffer in memory?
+!! popen - creates a new process => pclose waits for that process to finish in addition to closing the file.
+FLOCK, LOCKF, FNCTL
+
+DUP, DUP2 
+dup(fd) - duplicates the fd (creates a new entry in the table with that fd)
+dup2(oldfd, newfd) - overwrites the old file descr in the table ... with the new fd
+
+SYMLINKS (symbolic links)
+ln -s /bin/ls myls => myls will run ls!!!
+
+!!! processes : pipes, fifos offer STREAMING communication (one process writes, the other one reads) there are other communcation mechanisms:
+IPC=interprocess communication
+semaphore = synch mech - wait until someone else says go
+
+SHARED MEMORY
+ipcs-structures in memory uniquely identified by an id
+ipcmk -M 1024 - creates a shared memory block of 1024 bytes
+ipcrm -M id - removes the ipc with the id
+ipcs - prints all ipcs
+
+shmget - gets the id
+shmat - gets a pointer to the shared memory
+shmdt - gets rid of the pointer? but does not free the memory!! it s not yours to free
+shmctl - deletes the shared memory
+!!! SHARED MEMORY NEEDS A SYNCHRONISATION MECHANISM - the programs need to work on the shared memory in turns
+
+pipes - if you write a lot in the pipe and you don't read as fast then you get stuck
+with shared memory: you keep overwriting the memory?
+
+
+THREADS  !!!!
+more important than processes 
+another mech for executing programs simultaneously (concurrent programming)
+
+! processes: bug crashing the child process, the parent is fine.
+!!!! you duplicate a lot of memory by making a copy of the parent process, so creating a process is a bit slower
+- you don't get shared memory by default, you have to create it manually / use pipes, fifos etc.
+
+
+threads: communication is a non-issue (everything declared globally can be accessed by the threads), synchronisation is
+=> faster creation, reduced memory usage, and much simpler communication
+because you don't create an entirely new process, you create a thread in the main process?
+
+the function executed by the thread: void* f(void* arg)
+pthread_join - the equivalent of wait() for processes
+
+!! threads do appear in the processes list : ps 
+!!! as soon as you create the thread, it's up to the os who gets the processor first => undeterministic nature
+
+FORK
+
+CONTEXT
+=======
+CODE
+=======
+CONSTANTS
+=========
+VARIABLES         } 
+========= 
+HEAP
+|
+                 duplicated by fork
+^
+|
+STACK             }
+
+
+!!!! THE DIRTY METHOD
+void* f(void* a){
+	printf("%d\n", (int)(long)a);
+	return NULL;
+}
+
+int main(...){
+	for(i = 0; i < n; i++){
+		pthread_create(&t[i], NULL, f, (void*)(long)i); // instead of the pointer, you pass the actual number converted
+	}
+}
+
+CRITICAL SECTION
+= a section of code that gets executed by simultaneously multiple threads, some of which attempt to modify some common variables called a critical resources 
+
+MUTEX - mutual exclusion
+- wrap the critical section with mutex_lock mutex_unlock
+=> mutexes protect the critical sections
+
+if you call lock on a locked mutex, the thread waits for the mutex to be unlocked first!!
+
+RWLOCKS - used in situations where you have a lot of readers and very few writers
+the write lock is identical to a mutex: whomever has a write lock has exclusive access to the critical section
+=> only one writer can have the write lock at a time but ONLY if there are NO readers!!!
+=> an existing write lock causes any read lock attempt to wait(=>write lock - keeps readers out)
+the read lock - keeps writers out => you can have multiple read locks at the same time (shared lock)
+an existing read lock causes any write lock attempt to wait!!
+
+=>starvation*!!! (writers have to wait until all readers have dissappeared in order to gain access to the critical section)
+vice versa: readers have to wait until all writers have dissappeared 
+
+CONDITIONAL VARIABLE
+- mechanism for having one or more threads wait until another tells them to start
+* not about threads accessing the same critical resource, but their work being dependent on each other:
+my work cannot start until he is done with his and he's going to notify me when he's done.
+
+pthread_mutex_t m;
+pthread_cond_t c;
+TH1: pthread_mutex_lock(&m); while(!condition){pthread_cond_wait(&c, &m)}; pthread_mutex_unlock(&m); 
+TH2: pthread_mutex_lock(&m); //condition changes if(condition) {pthread_cond_signal(&c)}; pthread_mutex_unlock(&m); 
+
+!!!! the wait unlocks the mutex first then goes to sleep and locks it again right before waking up
+the mutex protects the conditional variable itself in a way
+
+!!! signal wakes only one thread up, broadcast signals all of them
+
+!!! some time elapses between the moment th2 signals and the moment th1 wakes up so even though 
+the condition was true when th2 signaled, th1 still has to check the condition is true still!!!
+signaling the cond variable can only happen if you have a sync around it
+
+BARRIERS:
+_init(&b, nr);
+barrier_wait(&b)
+
+SEMAPHORES:
+- controlling congestion: if you don't want more than a number of threads doing the same things at the same time
+init(value)
+wait() -- ~ lock
+if value == 0 => the thread will wait until value > 0
+post() ++ ~ unlock
+
+if value = 1 => BINARY SEMAPHORE - just like a mutex, the difference is: you can lock a locked mutex if it's yours already!
+you cannot do that with a semaphore, if you -1 you cannot -1 again
+
+!!! the producer consumer problem : 1 mutex, 2 semaphores
+sem1: full(0) / available for the consumer
+sem2: empty(N)
+
+PRODUCER
+wait(empty)
+lock(m)
+///produce
+unlock(m)
+post(full)
+
+CONSUMER
+wait(full)
+lock(m)
+///consume
+unlock(m)
+post(empty)
+mutex : only one thread can lock a mutex at a given moment
+semaphores: multiple threads can wait at the semaphore => decrease its value!!!! (like multiple threads locking the same mutex?)
+
+PROCESS STATES
+	HOLD - loads into memory?
+	READY - the process could run but doesn't yet have a cpu assigned	
+    /           \
+WAIT	RUN      SWAP
+lock             out of memory => freezes
+sometimes the os gets you off the processor so that it can give other processors cpu time => back to ready!!
+
+FINISHED
+CLEAN UP

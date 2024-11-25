@@ -1,0 +1,33 @@
+\< \>  -> word
+
+GREP
+grep -E - use regular expressions
+     -v - invert matching
+     -i - ignore case
+     -o - print only matching parts
+     -n - prefix each line with its line number
+
+wc -l - show number of lines in a file
+
+SED
+sed -E "s/regex/replacement/flags" a.txt - search and replace
+sed -E "y/characters/replacement/" a.txt - transliterate
+sed -E -i => IN PLACE!! => modifies the file
+
+AWK
+NR - number of the current line
+NF - number of fields of the current line
+$0 - the entire line
+$1 - first field...
+
+awk -F: => separator :
+ 
+Running a .awk file: awk -F: -f prog.awk /etc/passwd
+
+other useful commands:
+last
+cut -d' ' - separator ' ' -f1 - first field
+sort -n -r 
+uniq -c
+
+awk '$5 !~ /regex/ {print}' - not matching expression!!
